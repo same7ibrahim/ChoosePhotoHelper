@@ -9,6 +9,7 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -388,14 +389,19 @@ class ChoosePhotoHelper private constructor(
         private const val REQUEST_CODE_PICK_PHOTO = 102
 
         const val REQUEST_CODE_TAKE_PHOTO_PERMISSION = 103
+        private val readImagePermission =
+            if (Build.VERSION.SDK_INT >= 33)
+                "android.permission.READ_MEDIA_IMAGES"
+            else
+                Manifest.permission.READ_EXTERNAL_STORAGE
         val TAKE_PHOTO_PERMISSIONS = arrayOf(
             Manifest.permission.CAMERA,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
+            readImagePermission
         )
 
         const val REQUEST_CODE_PICK_PHOTO_PERMISSION = 104
         val PICK_PHOTO_PERMISSIONS = arrayOf(
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
+            readImagePermission
         )
 
         private const val FILE_PATH = "filePath"
